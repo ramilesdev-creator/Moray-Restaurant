@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moray Restaurante | Sabores Tradicionales del Perú</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons (for elegant icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Custom Configuration for Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#D4AF37',
+                            dark: '#121212',
+                            light: '#F8F5F2',
+                            gray: '#2A2A2A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to bottom, rgba(18,18,18,0.4), rgba(18,18,18,0.9)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=1920')",
+                        'atmosphere-pattern': "linear-gradient(to right, rgba(18,18,18,0.9), rgba(18,18,18,0.7)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1920')"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styles for extra polish */
+        .glass-nav {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .btn-primary {
+            background-color: #D4AF37;
+            color: #121212;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #F3CA4A;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+        .btn-outline {
+            border: 1px solid #D4AF37;
+            color: #D4AF37;
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            background-color: #D4AF37;
+            color: #121212;
+        }
+        .image-zoom-container {
+            overflow: hidden;
+        }
+        .image-zoom-container img {
+            transition: transform 0.7s ease;
+        }
+        .image-zoom-container:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-brand-light font-sans antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="font-serif text-3xl font-bold tracking-wider text-white">
+                        MORAY<span class="text-brand-gold">.</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="text-gray-300 hover:text-brand-gold transition text-sm uppercase tracking-widest font-semibold">Inicio</a>
+                    <a href="#nosotros" class="text-gray-300 hover:text-brand-gold transition text-sm uppercase tracking-widest font-semibold">Nosotros</a>
+                    <a href="#menu" class="text-gray-300 hover:text-brand-gold transition text-sm uppercase tracking-widest font-semibold">Menú</a>
+                    <a href="#contacto" class="text-gray-300 hover:text-brand-gold transition text-sm uppercase tracking-widest font-semibold">Contacto</a>
+                    <a href="https://wa.me/56949029627" target="_blank" class="btn-primary px-6 py-2.5 rounded-sm font-bold text-sm uppercase tracking-widest">
+                        Reservar
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="ph ph-list text-3xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-t border-gray-800 absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-1 text-center flex flex-col">
+                <a href="#inicio" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-gold hover:bg-gray-900 uppercase tracking-widest mobile-link">Inicio</a>
+                <a href="#nosotros" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-gold hover:bg-gray-900 uppercase tracking-widest mobile-link">Nosotros</a>
+                <a href="#menu" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-gold hover:bg-gray-900 uppercase tracking-widest mobile-link">Menú</a>
+                <a href="#contacto" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-brand-gold hover:bg-gray-900 uppercase tracking-widest mobile-link">Contacto</a>
+                <a href="https://wa.me/56949029627" class="block mt-4 px-3 py-3 btn-primary mx-4 rounded-sm font-bold text-sm uppercase tracking-widest">Reserva Ahora</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-no-repeat bg-fixed">
+        <div class="text-center px-4 max-w-4xl mx-auto z-10 mt-16">
+            <p class="text-brand-gold font-sans tracking-[0.3em] uppercase text-sm md:text-base mb-4 animate-fade-in-up">Sabores tradicionales del Perú</p>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-6 leading-tight">
+                El Arte de <br>
+                <span class="italic text-brand-gold">Comer a Gusto</span>
+            </h1>
+            <p class="text-gray-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light">
+                Descubre la auténtica gastronomía peruana en un ambiente cálido e inolvidable.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/56949029627" target="_blank" class="btn-primary w-full sm:w-auto px-8 py-4 rounded-sm font-bold text-sm uppercase tracking-widest text-center flex items-center justify-center gap-2">
+                    <i class="ph-fill ph-calendar-check text-lg"></i> Reserva Ahora
+                </a>
+                <a href="#menu" class="btn-outline w-full sm:w-auto px-8 py-4 rounded-sm font-bold text-sm uppercase tracking-widest text-center">
+                    Ver Menú
+                </a>
+            </div>
+            
+            <!-- Address badge -->
+            <div class="absolute bottom-10 left-0 w-full text-center flex justify-center animate-bounce">
+                <div class="flex items-center gap-2 text-sm text-gray-400 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">
+                    <i class="ph ph-map-pin text-brand-gold text-lg"></i>
+                    Av. Italia 1586, Santiago de Chile
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nosotros Section -->
+    <section id="nosotros" class="py-24 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Text Content -->
+                <div class="order-2 lg:order-1">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="h-[1px] w-12 bg-brand-gold"></div>
+                        <p class="text-brand-gold uppercase tracking-[0.2em] text-sm font-semibold">Nuestra Historia</p>
+                    </div>
+                    <h2 class="font-serif text-4xl md:text-5xl mb-8 leading-tight">Raíces que <br> <span class="italic text-gray-400">marcan la diferencia</span></h2>
+                    
+                    <div class="space-y-6 text-gray-400 font-light text-lg leading-relaxed">
+                        <p>
+                            El equipo de <strong class="text-white">Moray</strong> trabaja y le espera día a día en su acogedor local para atenderle y así pueda Ud. disfrutar en su visita de los sabores tradicionales del Perú.
+                        </p>
+                        <p>
+                            La visión de Moray es desarrollarse y consolidarse en el tiempo como una marca sinónimo de calidad culinaria, manteniendo siempre las raíces que han llevado a la cocina peruana a ser una de las más famosas del mundo.
+                        </p>
+                        <p>
+                            Lograr que nuestros clientes disfruten de un refrescante pisco sour, que saboreen un delicioso lomo saltado o endulcen su día con un rico suspiro a la limeña, es para nosotros como recibir un pago por un trabajo bien realizado, lo que da origen y sentido al significado del nombre Moray.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-10">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Firma_Moray.png" alt="Firma" class="h-12 opacity-50 invert" onerror="this.style.display='none'"> 
+                        <!-- Falback signature design if image fails -->
+                        <div class="font-serif italic text-2xl text-brand-gold mt-2">El Equipo de Moray</div>
+                    </div>
+                </div>
+
+                <!-- Images Grid -->
+                <div class="order-1 lg:order-2 grid grid-cols-2 gap-4">
+                    <div class="space-y-4 pt-12">
+                        <div class="image-zoom-container rounded-sm overflow-hidden h-64">
+                            <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=800" alt="Lomo Saltado" class="w-full h-full object-cover">
+                        </div>
+                        <div class="image-zoom-container rounded-sm overflow-hidden h-48">
+                            <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=800" alt="Postre" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="image-zoom-container rounded-sm overflow-hidden h-48">
+                            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800" alt="Pisco Sour" class="w-full h-full object-cover">
+                        </div>
+                        <div class="image-zoom-container rounded-sm overflow-hidden h-64">
+                            <img src="https://images.unsplash.com/photo-1605333396914-2314e20b666a?auto=format&fit=crop&q=80&w=800" alt="Ceviche" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner (Vamos a Comer) -->
+    <section class="py-20 bg-brand-gold relative flex items-center justify-center overflow-hidden">
+        <!-- Abstract shapes for background -->
+        <div class="absolute inset-0 opacity-10">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M0 40L40 0H20L0 20M40 40V20L20 40" fill="#000"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#pattern)"/>
+            </svg>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-3xl mx-auto">
+            <h2 class="font-serif text-5xl md:text-6xl text-brand-dark mb-6">¡Vamos a Comer!</h2>
+            <p class="text-xl md:text-2xl text-brand-dark font-light mb-8 italic">
+                "El comer a gusto mejora tu estado de animo."
+            </p>
+            <a href="https://wa.me/56949029627" class="inline-block border-2 border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-brand-gold transition-colors duration-300 px-8 py-4 uppercase tracking-widest font-bold text-sm">
+                Reserva tu mesa hoy
+            </a>
+        </div>
+    </section>
+
+    <!-- Destacados / Menú Section -->
+    <section id="menu" class="py-24 bg-brand-dark relative border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-brand-gold uppercase tracking-[0.2em] text-sm font-semibold mb-3">La Esencia de Moray</p>
+                <h2 class="font-serif text-4xl md:text-5xl text-white">Momentos Felices</h2>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto font-light">
+                    Los mejores platos y tragos tradicionales, preparados con pasión e ingredientes de primera selección.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                <div class="group relative bg-brand-gray/30 p-4 rounded-sm border border-gray-800 hover:border-brand-gold/50 transition-colors duration-500">
+                    <div class="image-zoom-container h-72 rounded-sm mb-6 relative">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=600" alt="Pisco Sour" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-serif text-2xl text-white mb-2">Pisco Sour Clásico</h3>
+                        <p class="text-gray-400 text-sm font-light mb-4 line-clamp-2">
+                            Refrescante y equilibrado, el verdadero emblema de la coctelería peruana para iniciar la velada.
+                        </p>
+                        <div class="w-12 h-[1px] bg-brand-gold mx-auto"></div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="group relative bg-brand-gray/30 p-4 rounded-sm border border-gray-800 hover:border-brand-gold/50 transition-colors duration-500 md:-translate-y-8">
+                    <div class="image-zoom-container h-72 rounded-sm mb-6 relative">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&q=80&w=600" alt="Lomo Saltado" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-serif text-2xl text-white mb-2">Lomo Saltado</h3>
+                        <p class="text-gray-400 text-sm font-light mb-4 line-clamp-2">
+                            Trozos de res flambeados al wok con cebolla, tomate, ají amarillo y el toque secreto de Moray.
+                        </p>
+                        <div class="w-12 h-[1px] bg-brand-gold mx-auto"></div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group relative bg-brand-gray/30 p-4 rounded-sm border border-gray-800 hover:border-brand-gold/50 transition-colors duration-500">
+                    <div class="image-zoom-container h-72 rounded-sm mb-6 relative">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=600" alt="Suspiro a la Limeña" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-serif text-2xl text-white mb-2">Suspiro a la Limeña</h3>
+                        <p class="text-gray-400 text-sm font-light mb-4 line-clamp-2">
+                            Endulza tu día con este postre tradicional, suave como un suspiro y lleno de historia.
+                        </p>
+                        <div class="w-12 h-[1px] bg-brand-gold mx-auto"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <a href="#contacto" class="text-brand-gold hover:text-white uppercase tracking-widest text-sm font-bold flex items-center justify-center gap-2 transition-colors">
+                    Ver Menú Completo <i class="ph ph-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ambiente y Contacto -->
+    <section id="contacto" class="bg-atmosphere-pattern bg-cover bg-center bg-fixed relative">
+        <div class="absolute inset-0 bg-brand-dark/80 backdrop-blur-sm"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Info Section -->
+                <div>
+                    <h2 class="font-serif text-4xl md:text-5xl text-white mb-4">Ven y disfruta de un <span class="text-brand-gold italic">cálido ambiente</span></h2>
+                    <p class="text-gray-300 mb-12 font-light">Estamos ubicados en el corazón gastronómico, listos para brindarte la mejor experiencia culinaria.</p>
+                    
+                    <div class="space-y-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-brand-gray/50 flex items-center justify-center border border-brand-gold/30 flex-shrink-0">
+                                <i class="ph ph-map-pin text-brand-gold text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-serif text-xl mb-1">Ubicación</h4>
+                                <p class="text-gray-400">Av. Italia 1586, Santiago de Chile</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-brand-gray/50 flex items-center justify-center border border-brand-gold/30 flex-shrink-0">
+                                <i class="ph ph-whatsapp-logo text-brand-gold text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-serif text-xl mb-1">WhatsApp / Reservas</h4>
+                                <a href="https://wa.me/56949029627" class="text-gray-400 hover:text-brand-gold transition-colors">+56 949029627</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule Card -->
+                <div class="bg-brand-dark border border-brand-gold/20 p-8 md:p-12 rounded-sm shadow-2xl relative overflow-hidden">
+                    <!-- Decor element -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-brand-gold/5 rounded-bl-full"></div>
+                    
+                    <div class="text-center mb-8">
+                        <i class="ph ph-clock text-4xl text-brand-gold mb-4 inline-block"></i>
+                        <h3 class="font-serif text-3xl text-white">Horario de Atención</h3>
+                        <div class="w-16 h-[1px] bg-brand-gold mx-auto mt-4"></div>
+                    </div>
+
+                    <ul class="space-y-4 text-gray-300 font-light">
+                        <li class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <span>Lunes a Jueves</span>
+                            <span class="text-white font-medium">12:30 – 00:30</span>
+                        </li>
+                        <li class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <span>Viernes</span>
+                            <span class="text-white font-medium">12:30 – 00:30</span>
+                        </li>
+                        <li class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <span>Sábado</span>
+                            <span class="text-white font-medium">12:00 – 00:30</span>
+                        </li>
+                        <li class="flex justify-between items-center pb-3">
+                            <span>Domingo</span>
+                            <span class="text-brand-gold font-medium">12:00 – 23:00</span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-10">
+                        <a href="https://wa.me/56949029627" class="btn-primary w-full block text-center py-4 uppercase tracking-widest text-sm font-bold">
+                            Hacer Reserva Ahora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            
+            <div class="mb-6 md:mb-0 text-center md:text-left">
+                <a href="#" class="font-serif text-2xl font-bold tracking-wider text-white inline-block mb-2">
+                    MORAY<span class="text-brand-gold">.</span>
+                </a>
+                <p class="text-gray-500 text-sm font-light">Sabores tradicionales del Perú en Santiago.</p>
+            </div>
+
+            <div class="flex space-x-6 mb-6 md:mb-0">
+                <a href="#" class="text-gray-500 hover:text-brand-gold transition-colors">
+                    <i class="ph-fill ph-instagram-logo text-2xl"></i>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-brand-gold transition-colors">
+                    <i class="ph-fill ph-facebook-logo text-2xl"></i>
+                </a>
+                <a href="https://wa.me/56949029627" class="text-gray-500 hover:text-brand-gold transition-colors">
+                    <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
+                </a>
+            </div>
+
+            <div class="text-center md:text-right text-gray-600 text-sm font-light space-y-1">
+                <p>Copyright © 2026 Moray Restaurante.</p>
+                <p>Created by <span class="text-gray-400">Consulting GyM</span>.</p>
+            </div>
+            
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/56949029627" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 hover:scale-110 transition-all duration-300 z-50 animate-bounce group" aria-label="Chat on WhatsApp">
+        <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+        <!-- Tooltip -->
+        <span class="absolute right-16 bg-gray-900 text-white text-xs px-3 py-2 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-700">
+            ¡Reserva aquí!
+        </span>
+    </a>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.style.background = 'rgba(18, 18, 18, 0.85)';
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const icon = mobileBtn.querySelector('i');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            if(mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('ph-x');
+                icon.classList.add('ph-list');
+            } else {
+                icon.classList.remove('ph-list');
+                icon.classList.add('ph-x');
+            }
+        }
+
+        mobileBtn.addEventListener('click', toggleMenu);
+
+        // Close menu on link click
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if(!mobileMenu.classList.contains('hidden')) {
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
